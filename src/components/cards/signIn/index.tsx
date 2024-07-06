@@ -3,17 +3,17 @@
 import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { useFormState, useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signInAccount } from "@/actions/auth";
+import { useFormState } from "react-dom";
 
-const initialState = { data: null, errors: null, message: null };
+const initialState = { data: null, errors: null, message: null, success: false };
 
 function SignInCard() {
-  const { pending } = useFormStatus();
-  const [state, dispatch] = useFormState(signInAccount, initialState);
+  const [state, dispatch, isPending] = useFormState(signInAccount, initialState);
+  
   return (
     <Card className="w-96 rounded-xl shadow-2xl">
       <CardHeader className="items-center mb-4">
@@ -43,7 +43,7 @@ function SignInCard() {
             ))}
           </div>
 
-          <Button disabled={pending}>Sign In</Button>
+          <Button disabled={isPending}>Sign In</Button>
 
           <p className="text-sm text-muted-foreground text-center">
             Don't have an account ?{" "}

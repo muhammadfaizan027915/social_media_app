@@ -6,8 +6,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function generateResponse({ message, errors, data }: Response) {
+export function generateResponse({ success, message, errors, data }: Response) {
   return {
+    success,
     message: message || null,
     errors: errors || null,
     data: data || null,

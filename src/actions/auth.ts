@@ -1,14 +1,17 @@
 "use server";
 
 import { SignInSchema, SignUpSchema } from "@/schemas/auth";
-import { redirect } from "next/navigation";
-import User from "@/models/user";
-import Database from "@/lib/db";
-import bcrypt from "bcrypt";
 import { generateResponse } from "@/lib/utils";
-import { MongooseError } from "mongoose";
+import { SECRET_KEY } from "@/lib/constants";
 import { Response } from "@/interfaces/dto";
-import { revalidatePath } from "next/cache";
+import { RedirectType, redirect } from "next/navigation";
+import { MongooseError } from "mongoose";
+import { cookies } from "next/headers"
+import { SignJWT } from "jose";
+
+import Database from "@/lib/database";
+import User from "@/models/user";
+import bcrypt from "bcrypt";
 
 Database.connect();
 
@@ -30,7 +33,19 @@ export const signInAccount = async (prevState: Response, formData: FormData) => 
     return generateResponse({ success: false, message: "Wrong email or password!" });
   }
 
-  return redirect("/dashboard");
+  delete user.password;
+
+  const jwt = new SignJWT({ user });
+  const token = await jwt.setProtectedHeader({ alg: 'HS256' }).setExpirationTime("10s").sign(new TextEncoder().encode(SECRET_KEY))
+
+  cookies().set({
+    value: token,
+    httpOnly: true,
+    maxAge: 24 * 60 * 60,
+    name: "next.authentication.token",
+  })
+
+  return redirect("/dashboard", RedirectType.replace);
 };
 
 export const signUpAccount = async (prevState: Response, formData: FormData) => {
@@ -55,7 +70,6 @@ export const signUpAccount = async (prevState: Response, formData: FormData) => 
     const user = new User({ ...data, password: await bcrypt.hash(data.password, 10) });
     await user.save();
 
-    revalidatePath("/signUp", "page");
     return generateResponse({ success: true, message: "Account created successfully!" });
   } catch (error) {
     if (error instanceof MongooseError) {

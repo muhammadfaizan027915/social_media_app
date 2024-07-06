@@ -3,17 +3,24 @@
 import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { useFormState, useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signUpAccount } from "@/actions/auth";
+import { useRef, useEffect } from "react";
+import { useFormState } from "react-dom";
 
-const initialState = { data: null, errors: null, message: null };
+const initialState = { data: null, errors: null, message: null, success: false };
 
 function SignUpCard() {
-  const { pending } = useFormStatus();
-  const [state, dispatch] = useFormState(signUpAccount, initialState);
+  const formRef = useRef<HTMLFormElement | null>(null)
+  const [state, dispatch, isPending] = useFormState(signUpAccount, initialState);
+
+  useEffect(() => {
+    if (state.success) {
+      formRef.current?.reset();
+    }
+  }, [state.success])
 
   return (
     <Card className="w-96 rounded-xl shadow-2xl">
@@ -22,7 +29,7 @@ function SignUpCard() {
         <CardDescription className="text-center">Welcome to aSimplify, enter your information.</CardDescription>
       </CardHeader>
       <CardContent>
-        <form className="flex flex-col space-y-6" action={dispatch}>
+        <form ref={formRef} className="flex flex-col space-y-6" action={dispatch}>
           {state.message && (
             <Alert>
               <AlertDescription>{state.message}</AlertDescription>
@@ -60,7 +67,7 @@ function SignUpCard() {
             ))}
           </div>
 
-          <Button disabled={pending}>Sign Up</Button>
+          <Button disabled={isPending}>Sign Up</Button>
 
           <p className="text-sm text-muted-foreground text-center">
             Already have an account ?{" "}
