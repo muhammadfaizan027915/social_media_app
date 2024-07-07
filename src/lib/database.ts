@@ -5,7 +5,7 @@ class Database {
   private static uri?: string = process.env.MONGODB_URI;
   private static dbName = process.env.DATABASE_NAME;
 
-  private constructor() {}
+  private constructor() { }
 
   /**
    * The function `connect` establishes a connection to a MongoDB database.

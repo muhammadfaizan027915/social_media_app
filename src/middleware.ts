@@ -1,40 +1,30 @@
-import { jwtVerify, errors } from "jose";
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
-import { SECRET_KEY, authPaths, pathnames } from './lib/constants';
+import { authPaths, pathnames } from './lib/constants';
 import type { NextRequest } from 'next/server'
+import { verifyToken } from "./lib/auth";
 
 
 
 export async function middleware(request: NextRequest) {
     const pathname = request.nextUrl.pathname;
     const token = cookies().get("next.authentication.token")?.value;
-    const isAuthUrl = Object.values(authPaths).includes(pathname);
+    const isAuthPath = Object.values(authPaths).includes(pathname);
 
-    if (!isAuthUrl && !token) {
-        return NextResponse.redirect(new URL(authPaths.SIGNIN, request.url));
-    }
-    else if (token) {
+    if (token) {
+        const isVerifiedUser = await verifyToken(token);
 
-        if (isAuthUrl) {
-            return NextResponse.redirect(new URL(pathnames.DASHBOARD, request.url));
-        } else {
-
-            try {
-                const decodedToken = await jwtVerify(token, new TextEncoder().encode(SECRET_KEY));
-
-                if (!decodedToken?.payload.user) {
-                    return NextResponse.redirect(new URL(authPaths.SIGNIN, request.url));
-                }
-
-            } catch (error) {
-                console.error("Error verifying JWT:", error);
-            }
+        if (isAuthPath && isVerifiedUser) {
+            return NextResponse.redirect(new URL(pathnames.FEED, request.url));
+        } else if (!isAuthPath && !isVerifiedUser) {
+            return NextResponse.redirect(new URL(authPaths.SIGNIN, request.url));
         }
+
+    } else if (!isAuthPath) {
+        return NextResponse.redirect(new URL(authPaths.SIGNIN, request.url));
     }
 
     return NextResponse.next();
-
 }
 
 
