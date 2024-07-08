@@ -1,10 +1,15 @@
-import { PieChart, Rss, User } from "lucide-react";
+import { PieChart, Rss, User, Plus } from "lucide-react";
 
 export const authPaths = { SIGNIN: "/signIn", SIGNUP: "/signUp" };
 
 export const pathnames = { ...authPaths, FEED: "/dashboard/feed", CREATE_POST: "/dashboard/create" };
 
 export const navigations = [
+    {
+        name: " Create Post",
+        href: "/dashboard/create",
+        icon: Plus,
+    },
     {
         name: "Feed",
         href: "/dashboard/feed",
