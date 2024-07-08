@@ -2,7 +2,7 @@ import { PieChart, Rss, User } from "lucide-react";
 
 export const authPaths = { SIGNIN: "/signIn", SIGNUP: "/signUp" };
 
-export const pathnames = { ...authPaths, FEED: "/dashboard/feed" };
+export const pathnames = { ...authPaths, FEED: "/dashboard/feed", CREATE_POST: "/dashboard/create" };
 
 export const navigations = [
     {

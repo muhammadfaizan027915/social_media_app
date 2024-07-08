@@ -22,6 +22,7 @@ function Navigation({ className }: NavigationProps) {
                 return (
                     <Button
                         asChild
+                        key={navigation?.href}
                         variant={active ? "default" : "ghost"}
                         className={cn([
                             "w-full justify-start rounded-xl p-6",

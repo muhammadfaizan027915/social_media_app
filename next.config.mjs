@@ -1,14 +1,24 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  async redirects() {
-    return [
-      {
-        source: "/",
-        destination: "/signIn",
-        permanent: true,
-      },
-    ];
-  },
+    images: {
+        remotePatterns: [
+            {
+                protocol: "https",
+                hostname: "images.pexels.com",
+                port: "",
+                pathname: "/photos/**",
+            },
+        ],
+    },
+    async redirects() {
+        return [
+            {
+                source: "/",
+                destination: "/signIn",
+                permanent: true,
+            },
+        ];
+    },
 };
 
 export default nextConfig;
