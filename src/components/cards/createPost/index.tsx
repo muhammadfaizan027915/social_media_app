@@ -10,7 +10,7 @@ function CreatePost() {
         <Card>
             <CardHeader>
                 <CardTitle>Create Post</CardTitle>
-                <CardDescription>Write what's in your mind ?</CardDescription>
+                <CardDescription>Write what&lsquo;s in your mind ?</CardDescription>
             </CardHeader>
             <CardContent>
                 <form className="flex flex-col gap-4">

@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
-export function generateResponse({ success, message, errors, data }: Response) {
+export function generateResponse<T>({ success, message, errors, data }: Response<T>) {
     return {
         success,
         message: message || null,

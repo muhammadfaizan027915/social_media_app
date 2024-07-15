@@ -1,6 +1,6 @@
-export interface Response {
-  errors?: any | null;
-  message?: string | null;
-  data?: any | null;
-  success: boolean;
+export interface Response<T = {}> {
+    errors?: any | null;
+    message?: string | null;
+    data?: T | null;
+    success: boolean;
 }

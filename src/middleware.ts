@@ -1,10 +1,8 @@
-import { cookies } from 'next/headers'
-import { NextResponse } from 'next/server'
-import { authPaths, pathnames } from './lib/constants';
-import type { NextRequest } from 'next/server'
+import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
+import { authPaths, pathnames } from "./lib/constants";
+import type { NextRequest } from "next/server";
 import { verifyToken } from "./lib/auth";
-
-
 
 export async function middleware(request: NextRequest) {
     const pathname = request.nextUrl.pathname;
@@ -19,7 +17,6 @@ export async function middleware(request: NextRequest) {
         } else if (!isAuthPath && !isVerifiedUser) {
             return NextResponse.redirect(new URL(authPaths.SIGNIN, request.url));
         }
-
     } else if (!isAuthPath) {
         return NextResponse.redirect(new URL(authPaths.SIGNIN, request.url));
     }
@@ -27,7 +24,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
 }
 
-
 export const config = {
-    matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
-}
+    matcher: ["/api/:path*"],
+};

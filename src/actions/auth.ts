@@ -46,6 +46,7 @@ export const signInAccount = async (prevState: Response, formData: FormData) => 
         httpOnly: true,
         maxAge: 24 * 60 * 60,
         name: "next.authentication.token",
+        sameSite: true
     });
 
     return redirect(pathnames.FEED);
