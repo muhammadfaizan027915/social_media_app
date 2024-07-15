@@ -33,7 +33,7 @@ export const signInAccount = async (prevState: Response, formData: FormData) => 
         return generateResponse({ success: false, message: "Wrong email or password!" });
     }
 
-    delete user.password;
+    delete user._doc.password;
 
     const jwt = new SignJWT({ user });
     const token = await jwt
@@ -46,7 +46,7 @@ export const signInAccount = async (prevState: Response, formData: FormData) => 
         httpOnly: true,
         maxAge: 24 * 60 * 60,
         name: "next.authentication.token",
-        sameSite: true
+        sameSite: true,
     });
 
     return redirect(pathnames.FEED);

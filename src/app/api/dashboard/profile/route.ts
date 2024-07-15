@@ -6,7 +6,8 @@ import { JWTInvalid } from "jose/errors";
 import { cookies } from "next/headers";
 
 export async function GET(request: NextRequest) {
-    const token = cookies().get("next.authentication.token")?.value;
+    const searchParams = request.nextUrl.searchParams;
+    const token = searchParams.get("access_token");
 
     try {
         if (!token) throw Error("JWT Token not found!");

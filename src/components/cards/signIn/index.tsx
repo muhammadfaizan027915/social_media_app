@@ -2,16 +2,16 @@
 
 import Link from "next/link";
 import TextField from "@/components/common/textField";
+import SubmitButton from "@/components/common/submitButton";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
 import { signInAccount } from "@/actions/auth";
 import { useFormState } from "react-dom";
 
 const initialState = { data: null, errors: null, message: null, success: false };
 
 function SignInCard() {
-    const [state, dispatch, isPending] = useFormState(signInAccount, initialState);
+    const [state, dispatch] = useFormState(signInAccount, initialState);
 
     return (
         <Card className="w-96 rounded-xl shadow-2xl">
@@ -41,7 +41,7 @@ function SignInCard() {
                         inputProps={{ type: "password" }}
                     />
 
-                    <Button disabled={isPending}>Sign In</Button>
+                    <SubmitButton>Sign In</SubmitButton>
 
                     <p className="text-sm text-muted-foreground text-center">
                         Don&lsquo;t have an account ?{" "}

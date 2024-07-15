@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import TextField from "@/components/common/textField";
+import SubmitButton from "@/components/common/submitButton";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
 import { signUpAccount } from "@/actions/auth";
 import { useRef, useEffect } from "react";
 import { useFormState } from "react-dom";
@@ -13,7 +13,7 @@ const initialState = { data: null, errors: null, message: null, success: false }
 
 function SignUpCard() {
     const formRef = useRef<HTMLFormElement | null>(null);
-    const [state, dispatch, isPending] = useFormState(signUpAccount, initialState);
+    const [state, dispatch] = useFormState(signUpAccount, initialState);
 
     useEffect(() => {
         if (state.success) {
@@ -58,7 +58,7 @@ function SignUpCard() {
                         inputProps={{ type: "password" }}
                     />
 
-                    <Button disabled={isPending}>Sign Up</Button>
+                    <SubmitButton>Sign Up</SubmitButton>
 
                     <p className="text-sm text-muted-foreground text-center">
                         Already have an account ?{" "}

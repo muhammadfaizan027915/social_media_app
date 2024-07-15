@@ -26,14 +26,14 @@ function ProfileCard({ user }: ProfileCardProps) {
                         id="fullName"
                         label="Full Name"
                         name="fullName"
-                        inputProps={{ value: "Muhammad Faizan" }}
+                        inputProps={{ defaultValue: "Muhammad Faizan" }}
                     />
 
                     <TextField
                         id="emailAddress"
                         label="Email Address"
                         name="emailAddress"
-                        inputProps={{ value: "muhammadfaizan027915@gmail.com", disabled: true }}
+                        inputProps={{ defaultValue: "muhammadfaizan027915@gmail.com", disabled: true }}
                     />
 
                     <TextField id="website" label="Website" name="website" inputProps={{ type: "url" }} />
