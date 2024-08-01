@@ -1,30 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
-import { generateResponse } from "@/lib/utils";
-import { decodeTokenUser } from "@/lib/auth";
-import { User } from "@/interfaces/types";
-import { JWTInvalid } from "jose/errors";
-import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
+import { authorizeUser, generateResponse } from "@/lib/utils";
+import { Request } from "@/interfaces/dto";
+import User from "@/models/user";
 
-export async function GET(request: NextRequest) {
-    const searchParams = request.nextUrl.searchParams;
-    const token = searchParams.get("access_token");
-
-    try {
-        if (!token) throw Error("JWT Token not found!");
-        const user = await decodeTokenUser(token);
-
-        return NextResponse.json(generateResponse({ success: false, message: "User sent successfully!", data: user }), {
-            status: 200,
-        });
-    } catch (error) {
-        if (error instanceof JWTInvalid) {
-            return NextResponse.json(generateResponse({ success: false, message: error.message }), {
-                status: 401,
-            });
-        }
-
-        return NextResponse.json(generateResponse({ success: false, message: "Something went wrong!" }), {
-            status: 500,
-        });
-    }
-}
+export const GET = authorizeUser(async (request: Request) => {
+    const user = await User.findById(request?.user?._id).select("-password");
+    return NextResponse.json(generateResponse({ success: false, message: "User sent successfully!", data: user }), {
+        status: 200,
+    });
+});

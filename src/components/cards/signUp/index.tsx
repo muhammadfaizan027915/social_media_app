@@ -5,15 +5,14 @@ import TextField from "@/components/common/textField";
 import SubmitButton from "@/components/common/submitButton";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { INITIAL_FORM_STATE } from "@/lib/constants";
 import { signUpAccount } from "@/actions/auth";
 import { useRef, useEffect } from "react";
 import { useFormState } from "react-dom";
 
-const initialState = { data: null, errors: null, message: null, success: false };
-
 function SignUpCard() {
     const formRef = useRef<HTMLFormElement | null>(null);
-    const [state, dispatch] = useFormState(signUpAccount, initialState);
+    const [state, dispatch] = useFormState(signUpAccount, INITIAL_FORM_STATE);
 
     useEffect(() => {
         if (state.success) {

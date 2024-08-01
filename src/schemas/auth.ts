@@ -1,14 +1,14 @@
-import zod from "zod";
+import z from "zod";
 
-export const SignInSchema = zod.object({
-    emailAddress: zod
+export const SignInSchema = z.object({
+    emailAddress: z
         .string({
             invalid_type_error: "Invalid email address",
             required_error: "Email is required",
         })
         .email({ message: "Invalid email address" }),
 
-    password: zod
+    password: z
         .string({
             invalid_type_error: "Password is required",
             required_error: "Password is required",
@@ -16,30 +16,30 @@ export const SignInSchema = zod.object({
         .min(6),
 });
 
-export const SignUpSchema = zod
+export const SignUpSchema = z
     .object({
-        fullName: zod
+        fullName: z
             .string({
                 invalid_type_error: "Full Name is required",
                 required_error: "Full Name is required",
             })
             .min(5),
 
-        emailAddress: zod
+        emailAddress: z
             .string({
                 invalid_type_error: "Invalid email address",
                 required_error: "Email is required",
             })
             .email({ message: "Invalid email address" }),
 
-        password: zod
+        password: z
             .string({
                 invalid_type_error: "Password is required",
                 required_error: "Password is required",
             })
             .min(6),
 
-        confirmPassword: zod
+        confirmPassword: z
             .string({
                 invalid_type_error: "Confirm Password is required",
                 required_error: "Confirm Password is required",

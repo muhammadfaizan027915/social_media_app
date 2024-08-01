@@ -5,4 +5,5 @@ export interface User {
     password: string;
     website: string;
     bio: string;
+    imageUrl: string;
 }

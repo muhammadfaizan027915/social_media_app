@@ -1,5 +1,6 @@
-import { decodeJwt, jwtVerify, errors } from "jose";
+import { decodeJwt, jwtVerify } from "jose";
 import { SECRET_KEY } from "./constants";
+import { User } from "@/interfaces/types";
 
 export const verifyToken = async (token: string) => {
     try {
@@ -17,7 +18,7 @@ export const verifyToken = async (token: string) => {
 export const decodeTokenUser = async (token: string) => {
     try {
         const payload = await decodeJwt(token);
-        return payload.user;
+        return payload.user as User;
     } catch (error) {
         console.log("Error decoding JWT user:", error);
         throw error;

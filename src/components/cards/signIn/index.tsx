@@ -5,13 +5,12 @@ import TextField from "@/components/common/textField";
 import SubmitButton from "@/components/common/submitButton";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { INITIAL_FORM_STATE } from "@/lib/constants";
 import { signInAccount } from "@/actions/auth";
 import { useFormState } from "react-dom";
 
-const initialState = { data: null, errors: null, message: null, success: false };
-
 function SignInCard() {
-    const [state, dispatch] = useFormState(signInAccount, initialState);
+    const [state, dispatch] = useFormState(signInAccount, INITIAL_FORM_STATE);
 
     return (
         <Card className="w-96 rounded-xl shadow-2xl">

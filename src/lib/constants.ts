@@ -27,4 +27,8 @@ export const navigations = [
     },
 ];
 
+export const INITIAL_FORM_STATE = { data: null, errors: null, message: null, success: false };
+
 export const SECRET_KEY = process.env.SECRET_KEY || "Secret";
+
+export const BASE_URL = "http://localhost:3000/api"
