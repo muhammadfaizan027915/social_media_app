@@ -28,7 +28,7 @@ export function getNameInitials(name?: string) {
     return matches?.join("").toUpperCase();
 }
 
-export function clearNullValues(object: Record<string, string | null>) {
+export function clearNullValues(object: Record<string, any | null>) {
     Object.keys(object).forEach((key: string) => {
         if (object[key] === null) {
             delete object[key];
