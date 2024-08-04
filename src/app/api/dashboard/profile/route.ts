@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { authorizeUser } from "@/lib/auth";
 import { generateResponse } from "@/lib/utils";
-import { Request } from "@/interfaces/dto";
+import { Request } from "@/interfaces/types";
 import User from "@/models/user";
 
 export const GET = authorizeUser(async (request: Request) => {

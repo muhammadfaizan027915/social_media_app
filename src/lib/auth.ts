@@ -2,7 +2,7 @@ import { JWTInvalid } from "jose/errors";
 import { SECRET_KEY } from "./constants";
 import { User } from "@/interfaces/types";
 import { NextResponse } from "next/server";
-import { Request } from "@/interfaces/dto";
+import { Request } from "@/interfaces/types";
 import { decodeJwt, jwtVerify } from "jose";
 import { generateResponse } from "./utils";
 import { cookies } from "next/headers";

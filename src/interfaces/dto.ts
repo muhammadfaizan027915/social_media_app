@@ -1,6 +1,3 @@
-import { NextRequest } from "next/server";
-import { User } from "./types";
-
 export interface Response<T = {}> {
     errors?: any | null;
     message?: string | null;
@@ -8,6 +5,3 @@ export interface Response<T = {}> {
     success: boolean;
 }
 
-export interface Request extends NextRequest {
-    user: User;
-}

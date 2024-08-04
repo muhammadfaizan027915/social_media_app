@@ -1,3 +1,5 @@
+import { NextRequest } from "next/server";
+
 export interface User {
     _id: string;
     fullName: string;
@@ -6,4 +8,8 @@ export interface User {
     website: string;
     bio: string;
     imageUrl: string;
+}
+
+export interface Request extends NextRequest {
+    user: User;
 }
