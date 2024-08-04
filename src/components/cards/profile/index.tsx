@@ -26,9 +26,11 @@ function ProfileCard({ user }: ProfileCardProps) {
                     <UserAvatar
                         avatarTitle={user?.fullName}
                         avatarSubTitle={user?.emailAddress}
+                        avatarUrl={user?.imageUrl}
                         avatarFallback={getNameInitials(user?.fullName)}
                         avatarProps={{ className: "w-32 h-32" }}
-                        avatarFallbackProps={{className: "text-2xl"}}
+                        avatarFallbackProps={{ className: "text-2xl" }}
+                        avatarEditable={true}
                     />
 
                     <TextField

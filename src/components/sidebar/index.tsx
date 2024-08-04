@@ -15,6 +15,7 @@ async function Sidebar() {
                 avatarTitle={user?.fullName}
                 avatarSubTitle={user?.emailAddress}
                 avatarFallback={getNameInitials(user?.fullName)}
+                avatarUrl={user?.imageUrl}
             />
         </aside>
     );

@@ -17,6 +17,7 @@ async function CreatePostTrigger() {
                     avatarTitle={user?.fullName}
                     avatarSubTitle={user?.emailAddress}
                     avatarFallback={getNameInitials(user?.fullName)}
+                    avatarUrl={user?.imageUrl}
                 />
                 <Button className="w-fit" asChild>
                     <Link href={pathnames.CREATE_POST}>Create Post</Link>

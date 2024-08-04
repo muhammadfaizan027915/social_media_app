@@ -1,6 +1,6 @@
 "use server";
 
-import { generateResponse } from "@/lib/utils";
+import { generateResponse, clearNullValues } from "@/lib/utils";
 import { decodeTokenUser } from "@/lib/auth";
 import { UserSchema } from "@/schemas/user";
 import { revalidateTag } from "next/cache";
@@ -18,6 +18,7 @@ export const updateUser = async (state: Response | undefined, formData: FormData
         const validation = UserSchema.safeParse({
             fullName: formData.get("fullName"),
             website: formData.get("website"),
+            imageUrl: formData.get("imageUrl"),
             bio: formData.get("bio"),
         });
 
@@ -27,13 +28,14 @@ export const updateUser = async (state: Response | undefined, formData: FormData
             return generateResponse({ success: false, errors: validation.error?.flatten().fieldErrors });
         }
 
-        const data = validation?.data;
+        const data = clearNullValues(validation?.data);
 
         await User.findOneAndUpdate({ _id: user?._id }, { $set: { ...data } }, { new: true });
 
         revalidateTag("user-profile");
     } catch (error) {
         console.log(error);
+
         return generateResponse({ success: false, message: "Something went wrong!" });
     }
 };

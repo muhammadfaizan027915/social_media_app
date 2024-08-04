@@ -24,6 +24,7 @@ function CreatePost({ user }: CreatePostProps) {
                         avatarTitle={user?.fullName}
                         avatarSubTitle={user?.emailAddress}
                         avatarFallback={getNameInitials(user?.fullName)}
+                        avatarUrl={user?.imageUrl}            
                     />
                     <Textarea className="h-44" maxLength={300} name="content" />
                     <div className="flex flex-col space-y-1.5">

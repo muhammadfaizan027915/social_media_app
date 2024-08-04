@@ -27,3 +27,13 @@ export function getNameInitials(name?: string) {
     const matches = name?.match(regex);
     return matches?.join("").toUpperCase();
 }
+
+export function clearNullValues(object: Record<string, string | null>) {
+    Object.keys(object).forEach((key: string) => {
+        if (object[key] === null) {
+            delete object[key];
+        }
+    });
+
+    return object;
+}
