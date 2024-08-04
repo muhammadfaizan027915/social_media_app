@@ -5,6 +5,7 @@ import TextField from "@/components/common/textField";
 import SubmitButton from "@/components/common/submitButton";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { INITIAL_FORM_STATE } from "@/lib/constants";
+import { getNameInitials } from "@/lib/utils";
 import { updateUser } from "@/actions/user";
 import { User } from "@/interfaces/types";
 import { useFormState } from "react-dom";
@@ -25,7 +26,9 @@ function ProfileCard({ user }: ProfileCardProps) {
                     <UserAvatar
                         avatarTitle={user?.fullName}
                         avatarSubTitle={user?.emailAddress}
+                        avatarFallback={getNameInitials(user?.fullName)}
                         avatarProps={{ className: "w-32 h-32" }}
+                        avatarFallbackProps={{className: "text-2xl"}}
                     />
 
                     <TextField
@@ -40,19 +43,24 @@ function ProfileCard({ user }: ProfileCardProps) {
                         id="emailAddress"
                         label="Email Address"
                         name="emailAddress"
-                        errors={state?.errors?.emailAddress}
-                        inputProps={{ defaultValue: user?.emailAddress }}
+                        inputProps={{ defaultValue: user?.emailAddress, disabled: true }}
                     />
 
                     <TextField
                         id="website"
                         label="Website"
                         name="website"
-                        inputProps={{ type: "url" }}
-                        errors={state?.errors?.fullName}
+                        inputProps={{ type: "url", defaultValue: user?.website }}
+                        errors={state?.errors?.website}
                     />
 
-                    <TextField id="bio" label="Bio" name="bio" errors={state?.errors?.bio} />
+                    <TextField
+                        id="bio"
+                        label="Bio"
+                        name="bio"
+                        errors={state?.errors?.bio}
+                        inputProps={{ defaultValue: user?.bio }}
+                    />
 
                     <SubmitButton>Save Changes</SubmitButton>
                 </form>

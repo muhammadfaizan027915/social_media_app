@@ -3,9 +3,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { getNameInitials } from "@/lib/utils";
+import { User } from "@/interfaces/types";
 import UserAvatar from "@/components/userAvatar";
 
-function CreatePost() {
+type CreatePostProps = {
+    user?: User | null;
+};
+
+function CreatePost({ user }: CreatePostProps) {
     return (
         <Card>
             <CardHeader>
@@ -14,7 +20,11 @@ function CreatePost() {
             </CardHeader>
             <CardContent>
                 <form className="flex flex-col gap-4">
-                    <UserAvatar />
+                    <UserAvatar
+                        avatarTitle={user?.fullName}
+                        avatarSubTitle={user?.emailAddress}
+                        avatarFallback={getNameInitials(user?.fullName)}
+                    />
                     <Textarea className="h-44" maxLength={300} name="content" />
                     <div className="flex flex-col space-y-1.5">
                         <Label htmlFor="imageUrl">Image URL (Optional)</Label>

@@ -3,7 +3,7 @@
 import { generateResponse } from "@/lib/utils";
 import { decodeTokenUser } from "@/lib/auth";
 import { UserSchema } from "@/schemas/user";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { Response } from "@/interfaces/dto";
 import { cookies } from "next/headers";
 
@@ -17,7 +17,6 @@ export const updateUser = async (state: Response | undefined, formData: FormData
 
         const validation = UserSchema.safeParse({
             fullName: formData.get("fullName"),
-            emailAddress: formData.get("emailAddress"),
             website: formData.get("website"),
             bio: formData.get("bio"),
         });
@@ -32,7 +31,7 @@ export const updateUser = async (state: Response | undefined, formData: FormData
 
         await User.findOneAndUpdate({ _id: user?._id }, { $set: { ...data } }, { new: true });
 
-        revalidatePath("/dashboard/profile");
+        revalidateTag("user-profile");
     } catch (error) {
         console.log(error);
         return generateResponse({ success: false, message: "Something went wrong!" });

@@ -1,9 +1,11 @@
 import CreatePost from "@/components/cards/createPost";
+import { getUserProfile } from "@/lib/api";
 
-function Create() {
+async function Create() {
+    const user = await getUserProfile();
     return (
         <div className="max-w-[798px] mx-auto">
-            <CreatePost />
+            <CreatePost user={user} />
         </div>
     );
 }
