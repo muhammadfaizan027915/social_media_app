@@ -2,12 +2,15 @@
 
 import { generateResponse, clearNullValues } from "@/lib/utils";
 import { decodeTokenUser } from "@/lib/auth";
-import { UserSchema } from "@/schemas/user";
+import { UpdateUserSchema } from "@/schemas/user";
 import { revalidateTag } from "next/cache";
 import { Response } from "@/interfaces/dto";
 import { cookies } from "next/headers";
 
 import User from "@/models/user";
+import Database from "@/lib/database";
+
+Database.connect();
 
 export const updateUser = async (state: Response | undefined, formData: FormData) => {
     const token = cookies().get("next.authentication.token")?.value;
@@ -15,14 +18,14 @@ export const updateUser = async (state: Response | undefined, formData: FormData
     try {
         if (!token) throw new Error("Authentication token not found!");
 
-        const validation = UserSchema.safeParse({
+        const validation = UpdateUserSchema.safeParse({
             fullName: formData.get("fullName"),
             website: formData.get("website"),
             imageUrl: formData.get("imageUrl"),
             bio: formData.get("bio"),
         });
 
-        const user = await decodeTokenUser(token);
+        const user = decodeTokenUser(token);
 
         if (!validation.success) {
             return generateResponse({ success: false, errors: validation.error?.flatten().fieldErrors });

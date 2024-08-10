@@ -46,7 +46,6 @@ export const SignUpSchema = z
             })
             .min(6),
     })
-
     .superRefine((value, context) => {
         if (value.password !== value.confirmPassword) {
             context.addIssue({

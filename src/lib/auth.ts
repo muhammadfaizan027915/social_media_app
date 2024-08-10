@@ -36,7 +36,7 @@ export function authorizeUser(callback: (request: Request) => Promise<NextRespon
         const token = searchParams.get("access_token") || cookies()?.get("next.authentication.token")?.value;
         try {
             if (!token) throw Error("JWT Token not found!");
-            const user = await decodeTokenUser(token);
+            const user = decodeTokenUser(token);
             request.user = user;
 
             return callback(request);
