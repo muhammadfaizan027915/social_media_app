@@ -27,15 +27,15 @@ const style: Record<string, { color: string; background: string; border: string 
         border: "!border-green-600",
     },
 
-    danger: {
+    warning: {
         color: "!text-orange-400",
         background: "!bg-orange-50",
         border: "!border-orange-400",
     },
 
-    warning: {
-        color: "!text-green-400",
-        background: "!bg-green-50",
-        border: "!border-green-400",
+    danger: {
+        color: "!text-red-400",
+        background: "!bg-red-50",
+        border: "!border-red-400",
     },
 };
