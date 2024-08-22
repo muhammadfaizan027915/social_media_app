@@ -27,7 +27,9 @@ function CreatePost({ user }: CreatePostProps) {
             </CardHeader>
             <CardContent>
                 <form className="flex flex-col gap-4" action={dispatch}>
-                    {state.message && <AlertMessage type={"warning"}>{state.message}</AlertMessage>}
+                    {state.message && (
+                        <AlertMessage type={state.success ? "success" : "danger"}>{state.message}</AlertMessage>
+                    )}
                     <UserAvatar
                         avatarTitle={user?.fullName}
                         avatarSubTitle={user?.emailAddress}

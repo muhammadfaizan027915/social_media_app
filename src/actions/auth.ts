@@ -1,10 +1,10 @@
 "use server";
 
 import { SignInSchema, SignUpSchema } from "@/schemas/auth";
+import { redirect, RedirectType } from "next/navigation";
 import { pathnames, SECRET_KEY } from "@/lib/constants";
 import { generateResponse } from "@/lib/utils";
 import { Response } from "@/interfaces/dto";
-import { redirect } from "next/navigation";
 import { MongooseError } from "mongoose";
 import { cookies } from "next/headers";
 import { SignJWT } from "jose";
@@ -25,31 +25,38 @@ export const signInAccount = async (prevState: Response, formData: FormData) => 
         return generateResponse({ success: false, errors: validation.error?.flatten().fieldErrors });
     }
 
-    const data = validation.data;
+    try {
+        const data = validation.data;
 
-    const user = await User.findOne({ emailAddress: data.emailAddress });
+        const user = await User.findOne({ emailAddress: data.emailAddress });
 
-    if (!user || !(await bcrypt.compare(data.password, user.password))) {
-        return generateResponse({ success: false, message: "Wrong email or password!" });
+        if (!user || !(await bcrypt.compare(data.password, user.password))) {
+            return generateResponse({ success: false, message: "Wrong email or password!" });
+        }
+
+        delete user._doc.password;
+
+        const jwt = new SignJWT({ user });
+
+        const token = await jwt
+            .setProtectedHeader({ alg: "HS256" })
+            .setExpirationTime("1d")
+            .sign(new TextEncoder().encode(SECRET_KEY));
+
+        cookies().set({
+            value: token,
+            httpOnly: true,
+            maxAge: 24 * 60 * 60,
+            name: "next.authentication.token",
+            sameSite: true,
+        });
+    } catch (error) {
+        console.error(error);
+
+        return generateResponse({ success: false, message: "Something went wrong!" });
     }
 
-    delete user._doc.password;
-
-    const jwt = new SignJWT({ user });
-    const token = await jwt
-        .setProtectedHeader({ alg: "HS256" })
-        .setExpirationTime("1d")
-        .sign(new TextEncoder().encode(SECRET_KEY));
-
-    cookies().set({
-        value: token,
-        httpOnly: true,
-        maxAge: 24 * 60 * 60,
-        name: "next.authentication.token",
-        sameSite: true,
-    });
-
-    return redirect(pathnames.FEED);
+    return redirect(pathnames.FEED, RedirectType.replace);
 };
 
 export const signUpAccount = async (prevState: Response, formData: FormData) => {
@@ -76,6 +83,8 @@ export const signUpAccount = async (prevState: Response, formData: FormData) => 
 
         return generateResponse({ success: true, message: "Account created successfully!" });
     } catch (error) {
+        console.error(error);
+
         if (error instanceof MongooseError) {
             return generateResponse({ success: false, message: error.message });
         }

@@ -7,15 +7,20 @@ import { decodeJwt, jwtVerify } from "jose";
 import { generateResponse } from "./utils";
 import { cookies } from "next/headers";
 
-export const verifyToken = async (token: string) => {
+export const isVerifiedUser = async () => {
     try {
+        const token = cookies().get("next.authentication.token")?.value;
+
+        if (!token) throw new Error("Authentication token not found!");
+
         const decodedToken = await jwtVerify(token, new TextEncoder().encode(SECRET_KEY));
 
         if (decodedToken?.payload?.user) {
             return true;
         }
     } catch (error) {
-        console.error("Error verifying JWT:", error);
+        console.log("Error verifying JWT:", error);
+
         return false;
     }
 };

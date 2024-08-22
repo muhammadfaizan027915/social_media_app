@@ -3,8 +3,8 @@
 import Link from "next/link";
 import TextField from "@/components/common/textField";
 import SubmitButton from "@/components/common/submitButton";
+import AlertMessage from "@/components/common/alertMessage";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { INITIAL_FORM_STATE } from "@/lib/constants";
 import { signUpAccount } from "@/actions/auth";
 import { useRef, useEffect } from "react";
@@ -22,16 +22,14 @@ function SignUpCard() {
 
     return (
         <Card className="w-96 rounded-xl shadow-2xl">
-            <CardHeader className="items-center mb-4">
+            <CardHeader className="items-center">
                 <CardTitle>Create an Account</CardTitle>
                 <CardDescription className="text-center">Welcome to aSimplify, enter your information.</CardDescription>
             </CardHeader>
             <CardContent>
                 <form ref={formRef} className="flex flex-col space-y-6" action={dispatch}>
                     {state.message && (
-                        <Alert>
-                            <AlertDescription>{state.message}</AlertDescription>
-                        </Alert>
+                        <AlertMessage type={state.success ? "success" : "danger"}>{state.message}</AlertMessage>
                     )}
 
                     <TextField id="fullName" label="Full Name" name="fullName" errors={state?.errors?.fullName} />

@@ -60,8 +60,9 @@ function ProfileCard({ user }: ProfileCardProps) {
                         id="bio"
                         label="Bio"
                         name="bio"
+                        type="textarea"
                         errors={state?.errors?.bio}
-                        inputProps={{ defaultValue: user?.bio }}
+                        textareaProps={{ defaultValue: user?.bio, rows: 8, placeholder: "Write about yourself here..." }}
                     />
 
                     <SubmitButton>Save Changes</SubmitButton>
