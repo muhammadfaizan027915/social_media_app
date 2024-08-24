@@ -7,9 +7,9 @@ export async function middleware(request: NextRequest) {
     const pathname = request.nextUrl.pathname;
     const isAuthPath = Object.values(authPaths).includes(pathname);
 
-    if (isAuthPath && !(await isVerifiedUser())) {
+    if (isAuthPath && !isVerifiedUser()) {
         return NextResponse.redirect(new URL(pathnames.FEED, request.url));
-    } else if (!isAuthPath && !(await isVerifiedUser())) {
+    } else if (!isAuthPath && !isVerifiedUser()) {
         return NextResponse.redirect(new URL(authPaths.SIGNIN, request.url));
     }
 

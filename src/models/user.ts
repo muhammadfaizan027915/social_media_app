@@ -1,7 +1,13 @@
 import mongoose from "mongoose";
+import { generateId } from "@/lib/utils";
 
 const UserSchema = new mongoose.Schema(
     {
+        _id: {
+            type: String,
+            default: generateId(),
+        },
+
         fullName: {
             type: String,
             required: true,

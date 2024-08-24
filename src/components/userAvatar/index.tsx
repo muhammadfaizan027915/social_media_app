@@ -20,8 +20,8 @@ type UserAvatarProps = Partial<{
 function UserAvatar({ className, avatarProps, avatarImageProps, avatarFallbackProps, ...props }: UserAvatarProps) {
     return (
         <div className={cn(["flex items-center gap-4", className])}>
-            <div className="relative">
-                <Avatar {...avatarProps} className={avatarProps?.className}>
+            <div className={props.avatarEditable ? "relative" : "static"}>
+                <Avatar {...avatarProps} className={cn(["!static", avatarProps?.className])}>
                     <AvatarImage src={props?.avatarUrl} {...avatarImageProps} />
                     <AvatarFallback className="bg-slate-200" {...avatarFallbackProps}>
                         {props?.avatarFallback}

@@ -1,23 +1,27 @@
 import { JWTInvalid } from "jose/errors";
-import { SECRET_KEY } from "./constants";
 import { User } from "@/interfaces/types";
 import { NextResponse } from "next/server";
 import { Request } from "@/interfaces/types";
-import { decodeJwt, jwtVerify } from "jose";
 import { generateResponse } from "./utils";
 import { cookies } from "next/headers";
+import { decodeJwt } from "jose";
 
-export const isVerifiedUser = async () => {
+export const getAuthenticationTokenFromCookies = () => {
+    const token = cookies().get("next.authentication.token")?.value;
+    return token;
+};
+
+export const getAuthenticationTokenFromSearchParams = (searchParams: URLSearchParams) => {
+    return searchParams.get("access_token");
+};
+
+export const isVerifiedUser = () => {
     try {
-        const token = cookies().get("next.authentication.token")?.value;
+        const token = getAuthenticationTokenFromCookies();
 
-        if (!token) throw new Error("Authentication token not found!");
+        const user = decodeTokenUser(token);
 
-        const decodedToken = await jwtVerify(token, new TextEncoder().encode(SECRET_KEY));
-
-        if (decodedToken?.payload?.user) {
-            return true;
-        }
+        return !!user?._id;
     } catch (error) {
         console.log("Error verifying JWT:", error);
 
@@ -25,8 +29,10 @@ export const isVerifiedUser = async () => {
     }
 };
 
-export const decodeTokenUser = (token: string) => {
+export const decodeTokenUser = (token?: string) => {
     try {
+        if (!token) throw new Error("Authentication token not found!");
+
         const payload = decodeJwt(token);
         return payload.user as User;
     } catch (error) {
@@ -35,10 +41,10 @@ export const decodeTokenUser = (token: string) => {
     }
 };
 
-export function authorizeUser(callback: (request: Request) => Promise<NextResponse>) {
+export function authenticateRoute(callback: (request: Request) => Promise<NextResponse>) {
     return async (request: Request) => {
         const searchParams = request.nextUrl.searchParams;
-        const token = searchParams.get("access_token") || cookies()?.get("next.authentication.token")?.value;
+        const token = getAuthenticationTokenFromSearchParams(searchParams) || getAuthenticationTokenFromCookies();
         try {
             if (!token) throw Error("JWT Token not found!");
             const user = decodeTokenUser(token);

@@ -3,7 +3,7 @@
 import { generateResponse } from "@/lib/utils";
 import { UpsertPostSchema } from "@/schemas/post";
 import { Response } from "@/interfaces/dto";
-import { isVerifiedUser } from "@/lib/auth";
+import { decodeTokenUser, getAuthenticationTokenFromCookies } from "@/lib/auth";
 import Database from "@/lib/database";
 import Post from "@/models/post";
 
@@ -11,9 +11,8 @@ Database.connect();
 
 export const createPost = async (state: Response | undefined, formData: FormData) => {
     try {
-        if (!(await isVerifiedUser())) {
-            throw new Error("Unauthorized!");
-        }
+        const token = getAuthenticationTokenFromCookies();
+        const user = decodeTokenUser(token);
 
         const validation = UpsertPostSchema.safeParse({
             imageUrl: formData.get("imageUrl"),
@@ -30,27 +29,11 @@ export const createPost = async (state: Response | undefined, formData: FormData
 
         const data = validation.data;
 
-        const post = new Post(data);
+        const post = new Post({ ...data, createdBy: user?._id });
 
         await post.save();
 
         return generateResponse({ success: true, message: "Post created successfully!" });
-    } catch (error) {
-        console.log(error);
-
-        return generateResponse({ success: false, message: "Something went wrong!" });
-    }
-};
-
-export const getPosts = async (skip: number, limit: number) => {
-    try {
-        if (!(await isVerifiedUser())) {
-            throw new Error("Unauthorized!");
-        }
-
-        const posts = await Post.find({}).sort({ createdOn: "desc" }).skip(skip).limit(limit);
-
-        return generateResponse({ success: true, data: posts });
     } catch (error) {
         console.log(error);
 

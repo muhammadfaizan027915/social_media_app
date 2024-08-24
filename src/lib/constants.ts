@@ -27,6 +27,8 @@ export const navigations = [
     },
 ];
 
+export const INITIAL_NUMBER_OF_POSTS = 10;
+
 export const INITIAL_FORM_STATE = { data: null, errors: null, message: null, success: false };
 
 export const SECRET_KEY = process.env.SECRET_KEY || "Secret";

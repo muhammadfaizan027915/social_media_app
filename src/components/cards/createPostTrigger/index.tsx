@@ -5,7 +5,6 @@ import { getUserProfile } from "@/lib/api";
 import { getNameInitials } from "@/lib/utils";
 import UserAvatar from "@/components/userAvatar";
 import Link from "next/link";
-import React from "react";
 
 async function CreatePostTrigger() {
     const user = await getUserProfile();

@@ -1,5 +1,9 @@
 import { NextRequest } from "next/server";
 
+export interface Request extends NextRequest {
+    user: User;
+}
+
 export interface User {
     _id: string;
     fullName: string;
@@ -10,6 +14,12 @@ export interface User {
     imageUrl: string;
 }
 
-export interface Request extends NextRequest {
-    user: User;
+export interface Post {
+    _id: string;
+    body: string;
+    imageUrl: string;
+    createdBy: User;
+    eval: string;
+    createdAt: Date;
+    updatedAt: Date;
 }
