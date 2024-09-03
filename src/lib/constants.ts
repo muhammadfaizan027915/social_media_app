@@ -1,4 +1,4 @@
-import { PieChart, Rss, User, Plus } from "lucide-react";
+import { Rss, User, Plus } from "lucide-react";
 
 export const authPaths = { SIGNIN: "/signIn", SIGNUP: "/signUp" };
 
@@ -16,21 +16,16 @@ export const navigations = [
         icon: Rss,
     },
     {
-        name: "Analytics",
-        href: "/dashboard/analytics",
-        icon: PieChart,
-    },
-    {
         name: "Profile",
         href: "/dashboard/profile",
         icon: User,
     },
 ];
 
-export const INITIAL_NUMBER_OF_POSTS = 10;
+export const PAGE_SIZE_OF_POSTS = 5;
 
 export const INITIAL_FORM_STATE = { data: null, errors: null, message: null, success: false };
 
 export const SECRET_KEY = process.env.SECRET_KEY || "Secret";
 
-export const BASE_URL = "http://localhost:3000/api"
+export const BASE_URL = `${process.env.NEXT_PUBLIC_URL}/api`;

@@ -7,8 +7,7 @@ import { cookies } from "next/headers";
 import { decodeJwt } from "jose";
 
 export const getAuthenticationTokenFromCookies = () => {
-    const token = cookies().get("next.authentication.token")?.value;
-    return token;
+    return cookies().get("next.authentication.token")?.value;
 };
 
 export const getAuthenticationTokenFromSearchParams = (searchParams: URLSearchParams) => {
@@ -58,12 +57,7 @@ export function authenticateRoute(callback: (request: Request) => Promise<NextRe
                 });
             }
 
-            return NextResponse.json(
-                generateResponse({ success: false, message: (error as Error)?.message || "Something went wrong!" }),
-                {
-                    status: 500,
-                }
-            );
+            console.error("Error Occurred: ", error);
         }
     };
 }

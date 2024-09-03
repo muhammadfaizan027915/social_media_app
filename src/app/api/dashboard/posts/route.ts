@@ -15,11 +15,28 @@ export const GET = authenticateRoute(async (request: Request) => {
     const posts = await Post.find({})
         .populate({
             path: "createdBy",
-            select: "-password",
+            select: "fullName emailAddress imageUrl",
         })
+        .select("-v")
         .sort({ createdOn: "desc" })
         .skip(skip)
         .limit(limit);
 
-    return NextResponse.json(generateResponse<FeedPost[]>({ success: true, data: posts }), { status: 200 });
+    const totalPosts = await Post.countDocuments();
+
+    if (totalPosts === 0 || posts?.length === 0) {
+        return NextResponse.json(
+            generateResponse<{ posts: FeedPost[]; totalPosts: number }>({
+                data: { posts: [], totalPosts: 0 },
+                message: "Posts not found.",
+                success: true,
+            }),
+            { status: 404 }
+        );
+    }
+
+    return NextResponse.json(
+        generateResponse<{ posts: FeedPost[]; totalPosts: number }>({ success: true, data: { posts, totalPosts } }),
+        { status: 200 }
+    );
 });

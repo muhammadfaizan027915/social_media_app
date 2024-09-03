@@ -1,17 +1,17 @@
 import PostFeed from "@/components/userFeed";
 import CreatePostTrigger from "@/components/cards/createPostTrigger";
-import { INITIAL_NUMBER_OF_POSTS } from "@/lib/constants";
-import { getPosts } from "@/lib/api";
-
-
+import { PAGE_SIZE_OF_POSTS } from "@/lib/constants";
+import { getInitialPosts } from "@/lib/api";
 
 async function Feed() {
-    const initialPosts = await getPosts(0, INITIAL_NUMBER_OF_POSTS);
+    const response = await getInitialPosts(PAGE_SIZE_OF_POSTS);
+    const totalPosts = response?.totalPosts;
+    const initialPosts = response?.posts;
 
     return (
         <div className="flex flex-col gap-4">
             <CreatePostTrigger />
-            <PostFeed initialPosts={initialPosts} />
+            <PostFeed initialPosts={initialPosts} totalPosts={totalPosts} />
         </div>
     );
 }
