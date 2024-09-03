@@ -28,10 +28,10 @@ function Post({ post }: PostProps) {
                         </div>
                     )}
                 </div>
-                <div className="flex gap-4 mt-4">
+                {/* <div className="flex gap-4 mt-4">
                     <EvaluationButton iconType={"like"} evaluationCount={10} />
                     <EvaluationButton iconType={"dislike"} evaluationCount={1} />
-                </div>
+                </div> */}
             </CardContent>
         </Card>
     );
