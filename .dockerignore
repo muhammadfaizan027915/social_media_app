@@ -1,0 +1,10 @@
+.git
+.next 
+.vscode
+node_modules
+.dockerignore
+
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
