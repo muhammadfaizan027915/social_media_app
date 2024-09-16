@@ -21,8 +21,10 @@ class Database {
                 this.db = await mongoose.connect(this.uri, { dbName: this.dbName });
             } catch (error) {
                 if (error instanceof MongooseError) {
-                    console.error(error.message);
+                    console.error( error.message);
                 }
+
+                console.log("Failed to connect the database!")
             }
         }
 
