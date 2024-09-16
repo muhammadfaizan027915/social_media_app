@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema(
     {
         _id: {
             type: String,
-            default: generateId(),
+            default: generateId,
         },
 
         fullName: {

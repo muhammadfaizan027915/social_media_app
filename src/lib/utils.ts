@@ -5,7 +5,7 @@ import { ClassValue, clsx } from "clsx";
 import { v4 } from "uuid";
 
 export function generateId() {
-    return v4;
+    return v4();
 }
 
 export function cn(...inputs: ClassValue[]) {

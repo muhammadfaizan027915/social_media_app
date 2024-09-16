@@ -5,7 +5,7 @@ const PostSchema = new mongoose.Schema(
     {
         _id: {
             type: String,
-            default: generateId(),
+            default: generateId,
         },
 
         body: {
