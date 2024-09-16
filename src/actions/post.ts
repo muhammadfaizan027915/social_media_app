@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath, revalidateTag } from "next/cache";
 import { generateResponse } from "@/lib/utils";
 import { UpsertPostSchema } from "@/schemas/post";
 import { Response } from "@/interfaces/dto";
@@ -32,7 +33,7 @@ export const createPost = async (state: Response | undefined, formData: FormData
         const post = new Post({ ...data, createdBy: user?._id });
 
         await post.save();
-
+        revalidatePath("/dashboard/feed", "page");
         return generateResponse({ success: true, message: "Post created successfully!" });
     } catch (error) {
         console.log(error);

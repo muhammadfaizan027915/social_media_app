@@ -1,4 +1,3 @@
-import models from "@/models";
 import mongoose, { Mongoose, MongooseError } from "mongoose";
 
 class Database {

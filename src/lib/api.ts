@@ -14,9 +14,7 @@ export const getUserProfile = async () => {
 
 export const getInitialPosts = async (limit: number) => {
     const token = getAuthenticationTokenFromCookies();
-    const response = await fetch(`${BASE_URL}/dashboard/posts?access_token=${token}&limit=${limit}`, {
-        next: { tags: ["posts"] },
-    });
+    const response = await fetch(`${BASE_URL}/dashboard/posts?access_token=${token}&limit=${limit}`);
     const json: Response<{ posts: Post[]; totalPosts: number }> = await response.json();
     return json.data;
 };

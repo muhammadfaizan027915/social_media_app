@@ -15,7 +15,7 @@ function CreatePostModal({ user }: CreatePostModalProps) {
     const router = useRouter();
     return (
         <Modal isOpen={pathname === pathnames.CREATE_POST} onClose={router.back}>
-            <CreatePost user={user} />
+            <CreatePost user={user} onSuccess={router.back} />
         </Modal>
     );
 }

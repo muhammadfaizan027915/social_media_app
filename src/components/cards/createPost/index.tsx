@@ -14,10 +14,16 @@ import AlertMessage from "@/components/common/alertMessage";
 
 type CreatePostProps = {
     user?: User | null;
+    onSuccess?: () => void;
 };
 
-function CreatePost({ user }: CreatePostProps) {
+function CreatePost({ user, onSuccess }: CreatePostProps) {
     const [state, dispatch] = useFormState(createPost, INITIAL_FORM_STATE);
+
+    const submitCreatePost = (formData: FormData) => {
+        dispatch(formData);
+        onSuccess?.();
+    }
 
     return (
         <Card>
@@ -26,7 +32,7 @@ function CreatePost({ user }: CreatePostProps) {
                 <CardDescription>Write what&lsquo;s in your mind ?</CardDescription>
             </CardHeader>
             <CardContent>
-                <form className="flex flex-col gap-4" action={dispatch}>
+                <form className="flex flex-col gap-4" action={submitCreatePost}>
                     {state.message && (
                         <AlertMessage type={state.success ? "success" : "danger"}>{state.message}</AlertMessage>
                     )}

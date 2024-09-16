@@ -18,9 +18,9 @@ export const GET = authenticateRoute(async (request: Request) => {
             select: "fullName emailAddress imageUrl",
         })
         .select("-v")
-        .sort({ createdOn: "desc" })
+        .sort({ createdOn: "asc" })
         .skip(skip)
-        .limit(limit);
+        .limit(limit)
 
     const totalPosts = await Post.countDocuments();
 
