@@ -34,7 +34,7 @@ function UserFeed({ initialPosts, totalPosts = 0 }: UserFeedProps) {
                 setIsLoading(false);
             })();
         }
-    }, [inView]);
+    }, [inView, offset, totalPosts]);
 
     return (
         <>
