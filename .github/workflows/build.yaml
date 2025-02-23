@@ -1,0 +1,14 @@
+name: Builder
+
+on: [workflow_dispatch]
+
+jobs:
+  
+  build-application: 
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: "build"
+        run: npm run build
