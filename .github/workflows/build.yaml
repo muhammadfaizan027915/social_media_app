@@ -3,12 +3,18 @@ name: Builder
 on: [workflow_dispatch]
 
 jobs:
-  
-  build-application: 
+  build-application:
     runs-on: "ubuntu-latest"
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Code Checkout
+        uses: actions/checkout@v4
 
-      - name: "build"
+      - name: Setup Node Environment
+        uses: actions/setup-node@v4
+
+      - name: Installing Dependencies
+        run: npm ci
+
+      - name: Build Application
         run: npm run build
